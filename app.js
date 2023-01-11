@@ -53,8 +53,8 @@ app.get("/:id", function (req, res) {
     let found = false
     for (let i = 0; i < data.length; i++) {
         if (data[i]['id'] == valueRequired) {
-            res.send({data:data[i]})
             found = true
+            res.send({data:data[i]})
         }
     }
     if (!found) {
@@ -92,7 +92,7 @@ app.delete("/delete/:id", function (req, res) {
         if (data[i]['id'] == Del) {
             data.splice(i, 1)
             found = true
-            res.send("<p> Value Deleted </p>")
+            res.redirect("/all")
         }   
     }
     if (!found) 
