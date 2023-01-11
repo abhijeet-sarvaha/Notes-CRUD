@@ -30,7 +30,7 @@ app.get("/", function (req, res) {
 
 
 // CREATE
-app.get("/create", function (req, res) {
+app.post("/create", function (req, res) {
     let value = req.query.content
     if (value !== undefined) {
         let New = new Get_New_entry(value)
@@ -98,21 +98,6 @@ app.delete("/delete/:id", function (req, res) {
     if (!found) 
         res.send("<p> Value do not exist </p>")
 })
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
