@@ -1,4 +1,4 @@
-const { getDate, getNewentry } = require("./fun");
+const { getDate, getNewEntry } = require("./fun");
 
 const express = require("express");
 const bodyParser = require("body-parser");
@@ -22,7 +22,7 @@ app.get("/", function (req, res) {
 app.post("/create", function (req, res) {
   let value = req.query.content;
   if (value !== undefined) {
-    let { key, val } = new getNewentry(value, data);
+    let { key, val } = new getNewEntry(value, data);
     data[`${key}`] = val;
   } else {
     res.send("<h1>Enter value. Empty value can not be added to notes</h1>");

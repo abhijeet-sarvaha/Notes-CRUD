@@ -7,7 +7,7 @@ function getDate() {
   return `${dd}-${mm}-${yy}`;
 }
 
-class getNewentry {
+class getNewEntry {
   constructor(value, D2) {
     let key = Math.random();
     let val = {
@@ -19,4 +19,4 @@ class getNewentry {
   }
 }
 
-module.exports = { getDate, getNewentry };
+module.exports = { getDate, getNewEntry };
