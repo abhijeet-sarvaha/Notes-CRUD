@@ -8,24 +8,18 @@ function Get_date() {
 }
 
 class Get_New_entry {
-    constructor(value) {
-        let New = {
-            id : Math.random(),
+
+    constructor(value, D2) {
+        let K = Math.random()
+        let V = {
             content : value,
             createdAt : Get_date(),
             editedAt : Get_date()
         }
-        return New
+        return {K, V}
     }
 
-    // Get_date() {
-    //     let today = new Date()
-    //     let dd = today.getDate()
-    //     let mm = today.getMonth() + 1
-    //     let yy = today.getFullYear()
     
-    //     return `${dd}-${mm}-${yy}`
-    // }
 }
 
 module.exports = {Get_date,Get_New_entry}

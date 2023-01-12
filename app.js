@@ -6,22 +6,23 @@ const app = express()
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
 // app.set('view engine', 'ejs')
 
-var data = [
-    {id: 1, content: "one", createdAt : Get_date(), editedAt : Get_date()},
-    {id: 2, content: "two", createdAt : Get_date(), editedAt : Get_date()},
-    {id: 3, content: "three", createdAt : Get_date(), editedAt : Get_date()},
-    {id: 4, content: "four", createdAt : Get_date(), editedAt : Get_date()}
-]
+// var data = [
+//     {id: 1, content: "one", createdAt : Get_date(), editedAt : Get_date()},
+//     {id: 2, content: "two", createdAt : Get_date(), editedAt : Get_date()},
+//     {id: 3, content: "three", createdAt : Get_date(), editedAt : Get_date()},
+//     {id: 4, content: "four", createdAt : Get_date(), editedAt : Get_date()}
+// ]
 
 
-// var D2 = {
-//     1: {content: "one", createdAt : Date.now(), editedAt : undefined},
-//     2: {content: "two", createdAt : Date.now(), editedAt : undefined},
-//     3: {content: "three", createdAt : Date.now(), editedAt : undefined},
-//     4: {content: "four", createdAt : Date.now(), editedAt : undefined}
-// }
+var D2 = {
+    1: {content: "one", createdAt : Date.now(), editedAt : undefined},
+    2: {content: "two", createdAt : Date.now(), editedAt : undefined},
+    3: {content: "three", createdAt : Date.now(), editedAt : undefined},
+    4: {content: "four", createdAt : Date.now(), editedAt : undefined}
+}
 
 
 app.get("/", function (req, res) {
@@ -30,11 +31,12 @@ app.get("/", function (req, res) {
 
 
 // CREATE
+
 app.post("/create", function (req, res) {
     let value = req.query.content
     if (value !== undefined) {
-        let New = new Get_New_entry(value)
-        data.push(New)
+        let {K, V} = new Get_New_entry(value, D2)
+        D2[`${K}`] = V
     }
     else{
         res.send("<h1>Enter value. Empty value can not be added to notes</h1>");
@@ -42,40 +44,29 @@ app.post("/create", function (req, res) {
     res.redirect("/all")
 })
 
-
 // READ
 app.get("/all", function (req, res) {
-    res.send({data: data})
+    res.send({data: D2})
 })
 
 app.get("/:id", function (req, res) {
     let valueRequired = req.params.id
-    let found = false
-    for (let i = 0; i < data.length; i++) {
-        if (data[i]['id'] == valueRequired) {
-            found = true
-            res.send({data:data[i]})
-        }
+    if (D2[`${valueRequired}`] !== undefined) {
+        res.send({data:D2[`${valueRequired}`]})
     }
-    if (!found) {
+    else
         res.send("<p> Do not exist </p>")
-    }  
 })
 
 
 // UPDATE
 
 app.put("/update/:id", function (req, res) {
-    let content = req.body.content
-    let id = req.params.id
-    if (id !== undefined) {
-        for (let i = 0; i < data.length; i++) {
-            if (data[i]['id'] == id) {
-                data[i]['content'] = content
-                data[i]['editedAt'] = Get_date()
-                console.log(data[i]);
-            }
-        }
+let content = req.body.content
+let id = req.params.id
+    if (id !== undefined && D2[`${id}`] !== undefined) {
+        D2[`${id}`]['content'] = content
+        D2[`${id}`]['editedAt'] = Get_date()
     }
     res.redirect("/all")
 })
@@ -87,19 +78,11 @@ app.put("/update/:id", function (req, res) {
 
 app.delete("/delete/:id", function (req, res) {
     let Del = req.params.id
-    let found = false
-    for (let i = 0; i < data.length; i++) {
-        if (data[i]['id'] == Del) {
-            data.splice(i, 1)
-            found = true
-            res.redirect("/all")
-        }   
+    if (D2[`${Del}`] !== undefined) {
+        D2[`${Del}`]= undefined
     }
-    if (!found) 
-        res.send("<p> Value do not exist </p>")
+    res.redirect("/all")
 })
-
-
 
 
 
